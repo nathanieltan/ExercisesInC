@@ -26,8 +26,12 @@ int main () {
     puts("Enter numbers:");
 
     while (fgets(input, 8, stdin)) {
+        if (input[strlen(input) - 1] != '\n') {
+            puts ("Input buffer overflowed");
+            break;
+        }
         if (buffer_index >= BUFFER_SIZE) {
-            puts("Inputs exceed buffer size, exiting");
+            puts("Inputs exceed array size, exiting");
             break;
         }
 
