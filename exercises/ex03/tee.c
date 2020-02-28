@@ -26,7 +26,7 @@ int main (int argc, char *argv[]) {
                 append = 1;
                 break;
             default:
-                fprintf(stderr, "Invalid option '%s' \n", optarg);
+                fprintf(stderr, "invalid option '%s' \n", optarg);
                 break;
         }
     }
