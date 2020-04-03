@@ -7,6 +7,7 @@ Modified version of an example from Chapter 2.5 of Head First C.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
 
 #define NUM_TRACKS 5
 
@@ -37,7 +38,45 @@ void find_track(char search_for[])
 // Prints track number and title.
 void find_track_regex(char pattern[])
 {
-    // TODO: fill this in
+    int status;
+
+    int errorCodeSize;
+    char *error_buff;
+
+    for(int i=0; i < NUM_TRACKS; i++) {
+        regex_t reg;
+
+        // Compiles regex pattern, exits if fails to compile
+        if(regcomp(&reg, pattern, REG_EXTENDED|REG_NOSUB)){
+            printf("Pattern failed to compile");
+            exit(1);
+        }
+
+        status = regexec(&reg, tracks[i], (size_t) 0, NULL, 0);
+
+
+        if(status == 0){
+            printf("Track %i: '%s'\n", i, tracks[i]);
+        } 
+        else if(status == REG_NOMATCH){
+            
+        }
+        else {
+            // Checks size of error code and then mallocs that amount of bytes
+            errorCodeSize = regerror(status, &reg, (char *)NULL, (size_t)0);
+            error_buff = malloc(errorCodeSize);
+
+            printf("error_buff size:%d", errorCodeSize);
+
+            regerror(status, &reg, error_buff, errorCodeSize);
+
+            printf("%s\n", error_buff);
+            exit(1);
+        }
+        regfree(&reg);
+    }
+   
+
 }
 
 // Truncates the string at the first newline, if there is one.
@@ -58,8 +97,8 @@ int main (int argc, char *argv[])
     fgets(search_for, 80, stdin);
     rstrip(search_for);
 
-    find_track(search_for);
-    //find_track_regex(search_for);
+    //find_track(search_for);
+    find_track_regex(search_for);
 
     return 0;
 }

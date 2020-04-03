@@ -40,7 +40,14 @@ x, y: coordinates
 
 returns: new Line; use free_line to free
 */
-// TODO: Write this function
+Line *make_line(Point *point1, Point *point2)
+{
+    Line *newLine = malloc(sizeof(*point1)*2);
+    newLine->start = point1;
+    newLine->end = point2;
+
+    return newLine;
+}
 
 /* Return string representation
 

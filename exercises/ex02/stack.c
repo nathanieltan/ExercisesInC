@@ -10,11 +10,20 @@ License: GNU GPLv3
 
 #define SIZE 5
 
+/**
+ * Experiment results:
+ * The code seg faults because the array in foo is a local variable and
+ * when the frame for foo is done array no longer exists so the pointer that
+ * foo returns points to garbage data at the same address array used to be at
+ *
+ * commenting out the print statements gets rid of the prints and doesn't change
+ * anything else
+ */
 int *foo() {
     int i;
     int array[SIZE];
 
-    printf("%p\n", array);
+    /* printf("%p\n", array); */
 
     for (i=0; i<SIZE; i++) {
         array[i] = 42;
@@ -26,7 +35,7 @@ void bar() {
     int i;
     int array[SIZE];
 
-    printf("%p\n", array);
+    /* printf("%p\n", array); */
 
     for (i=0; i<SIZE; i++) {
         array[i] = i;

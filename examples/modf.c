@@ -1,3 +1,4 @@
+
 /* Example code for Software Systems at Olin College.
 
 Copyright 2018 Allen Downey
@@ -32,6 +33,18 @@ length: number of elements in the array
 returns: new array, caller must free
 */
 // TODO: Write this function
+double* get_int_part(double array[], int length)
+{
+    double *result = malloc(sizeof(array)*length);
+    double *dest = result;
+
+    for (int i=0; i < length; i++)
+    {
+        modf(array[i], dest);
+        dest++;
+    }
+    return result;
+}
 
 void test_get_int_part()
 {
@@ -57,6 +70,24 @@ p: location where the address of the frac_array should go
 returns: new array, caller must free
 */
 //TODO: Write this function
+double* get_both_parts(double array[], int length, double **p)
+{
+    double *res1 = malloc(sizeof(array)*length);
+    double *res2 = malloc(sizeof(array)*length);
+
+    double *dest1 = res1;
+    double *dest2 = res2;
+
+    for(int i=0; i < length; i++) {
+        *dest2 = modf(array[i], dest1);
+        dest1++;
+        dest2++;
+    }
+
+    *p = res2;
+
+    return res1;
+}
 
 
 void test_get_both_parts()
